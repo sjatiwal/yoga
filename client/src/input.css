@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes landing-shadow {
+  0% {
+    -webkit-transform: scaleX(0.7);
+    transform: scaleX(0.7);
+    opacity: 1;
+  }
+
+  50% {
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+    opacity: 0.5;
+  }
+  100% {
+    -webkit-transform: scaleX(0.7);
+    transform: scaleX(0.7);
+    opacity: 1;
+  }
+}
+
+.landing-shadow-animate {
+  animation: landing-shadow 4s ease-in-out infinite;
+}

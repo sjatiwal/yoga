@@ -1,0 +1,11 @@
+<svg width="235.58232931726909" height="20.811403508771928" viewBox="0 0 419 73" fill="none"
+    xmlns="http://www.w3.org/2000/svg" class="landing-shadow-animate">
+    <ellipse cx="209.5" cy="36.5" rx="209.5" ry="36.5" fill="url(#paint10_radial)"></ellipse>
+    <defs>
+        <radialGradient id="paint10_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+            gradientTransform="matrix(0 36.5 -209.5 0 209.5 36.5)">
+            <stop stop-color="#D6D6D6"></stop>
+            <stop offset="1" stop-color="#D9D9D9" stop-opacity="0"></stop>
+        </radialGradient>
+    </defs>
+</svg>
