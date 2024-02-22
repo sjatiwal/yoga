@@ -2,19 +2,23 @@ import React, { useState, useRef, useEffect } from "react";
 import { ReactComponent as Search } from "../assets/image/search.svg";
 import { ReactComponent as Girl } from "../assets/image/animation1.svg";
 import { ReactComponent as Updown } from "../assets/image/animation2.svg";
-
 import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import { timeData } from "../assets/data/data";
 import { Link } from "react-router-dom";
 import FilterSection from "../components/filterSection";
 import axios from "axios";
+import YogaCard from "../components/yogacard";
+
 const Home = () => {
   const [showInputCategory, setShowInputCategory] = useState(false);
   const timeBoxContainerRef = useRef(null);
-  const timeBoxRef = useRef(null);
+  const yogaCardRef = useRef(null);
 
   const [clientWidth, setClientWidth] = useState("");
   const [scrollLeft, setScrollLeft] = useState("");
+  const [yogaCardClientWidth, setYogaCardClientWidth] = useState("");
+  const [yogaCardscrollLeft, setYogaCardScrollLeft] = useState("");
+  const [yogaCourses, setYogaCourses] = useState([]);
 
   const handleScroll = (direction) => {
     if (timeBoxContainerRef.current) {
@@ -31,6 +35,35 @@ const Home = () => {
       });
     }
   };
+
+  const handleScrollCard = (direction) => {
+    if (yogaCardRef.current) {
+      setYogaCardClientWidth(yogaCardRef.current.clientWidth);
+      setYogaCardScrollLeft(yogaCardRef.current.scrollLeft);
+      console.log(yogaCardClientWidth, yogaCardscrollLeft);
+      const scrollTo =
+        direction === "left"
+          ? yogaCardscrollLeft - yogaCardClientWidth
+          : yogaCardscrollLeft + yogaCardClientWidth;
+      yogaCardRef.current.scrollTo({
+        left: scrollTo,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const fetchYogaCourses = async () => {
+    try {
+      const response = await axios.get("http://localhost:8888/yogaCourse.json");
+      setYogaCourses(response.data);
+    } catch (error) {
+      console.error("Error fetching yoga courses:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchYogaCourses();
+  }, []);
   return (
     <>
       <div className="flex justify-between pt-5 mb-3 items-end sm:w-4/5">
@@ -86,7 +119,6 @@ const Home = () => {
                 <div
                   key={item.time}
                   className="px-4 text-nowrap text-[#FB7125]"
-                  ref={timeBoxRef}
                 >
                   {item.time}
                 </div>
@@ -99,6 +131,23 @@ const Home = () => {
           >
             <RxCaretRight className="text-white mt-1" />
           </div>
+        </div>
+      </div>
+      <div className="flex items-center mt-4">
+        <div
+          className="bg-[#E56F2C] px-1 rounded-full"
+          onClick={() => handleScrollCard("left")}
+        >
+          <RxCaretLeft className="text-white my-1" />
+        </div>
+        <div className="ml-1  flex overflow-hidden" ref={yogaCardRef}>
+          <YogaCard yogaCourses={yogaCourses} />
+        </div>
+        <div
+          className="bg-[#E56F2C] px-1 rounded-full"
+          onClick={() => handleScrollCard("right")}
+        >
+          <RxCaretRight className="text-white my-1" />
         </div>
       </div>
     </>
